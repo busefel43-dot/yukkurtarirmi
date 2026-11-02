@@ -1,10 +1,2 @@
-
 import { defineConfig } from 'vite';
-
-export default defineConfig({
-  base: './',
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true
-  }
-});
+export default defineConfig({ root: 'www', base: './', build: { outDir: '../dist', emptyOutDir: true } });
