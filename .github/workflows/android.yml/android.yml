@@ -1,0 +1,55 @@
+
+name: Android AAB Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kaynak kodu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Java kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android SDK kur
+        uses: android-actions/setup-android@v3
+
+      - name: Bağımlılıkları yükle
+        run: npm install
+
+      - name: Web uygulamasını derle
+        run: npm run build
+
+      - name: Android projesini oluştur
+        run: npx cap add android
+
+      - name: AdMob yapılandırmasını uygula
+        run: npm run configure:android
+
+      - name: Capacitor senkronizasyonu
+        run: npx cap sync android
+
+      - name: Gradle ile AAB oluştur
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew bundleDebug
+
+      - name: AAB dosyasını kaydet
+        uses: actions/upload-artifact@v4
+        with:
+          name: yuk-kurtarir-mi-debug-aab
+          path: android/app/build/outputs/bundle/debug/app-debug.aab
