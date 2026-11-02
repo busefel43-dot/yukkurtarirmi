@@ -1,0 +1,9 @@
+{
+  "appId": "com.yukkurtarirmi.app",
+  "appName": "YükKurtarırMı?",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
